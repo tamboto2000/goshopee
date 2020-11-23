@@ -198,5 +198,7 @@ func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byt
 		return nil, errors.New(string(raw))
 	}
 
+	sh.cookies = mergeCookies(sh.cookies, resp.Cookies())
+
 	return raw, nil
 }
