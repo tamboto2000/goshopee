@@ -349,3 +349,46 @@ func (sh *Shopee) ItemByLink(link string) (*Item, error) {
 func (i *Item) SetShopee(sh *Shopee) {
 	i.sh = sh
 }
+
+func composeItemURL(item *Item) string {
+	var urlStr string
+	for _, c := range strings.Split(item.Name, "") {
+		if !isCharAChar(c) && !isCharANum(c) {
+			urlStr += "-"
+			continue
+		}
+
+		urlStr += c
+	}
+
+	urlStr += "-i"
+	urlStr = "https://shopee.co.id/" + urlStr + "." + strconv.Itoa(item.Shopid) + "." + strconv.Itoa(item.Itemid)
+
+	return urlStr
+}
+
+func isCharAChar(c string) bool {
+	latin := []string{
+		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+	}
+
+	for _, char := range latin {
+		if c == char {
+			return true
+		}
+	}
+
+	return false
+}
+
+func isCharANum(c string) bool {
+	num := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
+	for _, char := range num {
+		if c == char {
+			return true
+		}
+	}
+
+	return false
+}
