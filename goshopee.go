@@ -28,6 +28,7 @@ type Shopee struct {
 	cookies   []*http.Cookie
 	client    *http.Client
 	userAgent string
+	csrfToken string
 }
 
 // New initiate Shopee client
@@ -44,6 +45,14 @@ func (sh *Shopee) SetCookieStr(c string) {
 	header.Add("Cookie", c)
 	request := http.Request{Header: header}
 	sh.cookies = request.Cookies()
+
+	// get csrf token
+	for _, c := range sh.cookies {
+		if c.Name == "csrftoken" {
+			sh.csrfToken = c.Value
+			break
+		}
+	}
 }
 
 // SetProxy set proxy to client
