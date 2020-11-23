@@ -17,7 +17,7 @@ const (
 
 var defaultHeader = http.Header{
 	"User-Agent":       {defaultUserAgent},
-	"Accept":           {"Accept"},
+	"Accept":           {"application/json"},
 	"X-Requested-With": {"XMLHttpRequest"},
 	"X-API-SOURCE":     {"pc"},
 	"Connection":       {"keep-alive"},
@@ -109,5 +109,40 @@ func (sh *Shopee) get(path string, param url.Values) ([]byte, error) {
 		return nil, errors.New(string(raw))
 	}
 
+	sh.cookies = mergeCookies(sh.cookies, resp.Cookies())
+
 	return raw, nil
+}
+
+func mergeCookies(old, newC []*http.Cookie) []*http.Cookie {
+	cookies := make([]*http.Cookie, 0)
+	// replace old cookie with the new one
+	for i, cOld := range old {
+		for _, cNew := range newC {
+			if cOld.Name == cNew.Name {
+				old[i] = cNew
+
+				break
+			}
+		}
+	}
+
+	// add new cookies
+	for _, cNew := range newC {
+		isNew := true
+		for _, cOld := range old {
+			if cOld.Name == cNew.Name {
+				isNew = false
+				break
+			}
+		}
+
+		if isNew {
+			cookies = append(cookies, cNew)
+		}
+	}
+
+	cookies = append(cookies, old...)
+
+	return cookies
 }
