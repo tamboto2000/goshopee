@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -162,8 +161,6 @@ func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byt
 		return nil, err
 	}
 
-	fmt.Println(string(bodyByts))
-
 	req, err := http.NewRequest("POST", uri.String(), bytes.NewBuffer(bodyByts))
 	if err != nil {
 		return nil, err
@@ -185,8 +182,6 @@ func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byt
 	if err != nil {
 		return nil, err
 	}
-
-	// fmt.Println(resp.Request.Header)
 
 	defer resp.Body.Close()
 
