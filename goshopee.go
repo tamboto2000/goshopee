@@ -1,7 +1,10 @@
 package goshopee
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -145,4 +148,60 @@ func mergeCookies(old, newC []*http.Cookie) []*http.Cookie {
 	cookies = append(cookies, old...)
 
 	return cookies
+}
+
+// request Shopee API with method POST
+func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byte, error) {
+	uri, err := url.Parse(baseAPIURL + path)
+	if err != nil {
+		return nil, err
+	}
+
+	bodyByts, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(string(bodyByts))
+
+	req, err := http.NewRequest("POST", uri.String(), bytes.NewBuffer(bodyByts))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header = defaultHeader
+	for _, c := range sh.cookies {
+		req.AddCookie(c)
+	}
+
+	// add csrf token to header
+	req.Header.Add("X-CSRFToken", sh.csrfToken)
+	// add content type
+	req.Header.Add("Content-Type", "application/json")
+	// add referer
+	req.Header.Add("Referer", referer)
+
+	resp, err := sh.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	// fmt.Println(resp.Request.Header)
+
+	defer resp.Body.Close()
+
+	raw, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode > 299 {
+		if len(raw) == 0 {
+			return nil, errors.New(resp.Status)
+		}
+
+		return nil, errors.New(string(raw))
+	}
+
+	return raw, nil
 }
