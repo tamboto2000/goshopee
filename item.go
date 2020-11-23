@@ -2,8 +2,10 @@ package goshopee
 
 import (
 	"encoding/json"
+	"errors"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 // Item contains item or product detail
@@ -304,4 +306,39 @@ func (sh *Shopee) ItemByIDAndShopID(id, shopID int) (*Item, error) {
 	}
 
 	return item, nil
+}
+
+// ItemByLink get item by link.
+// Example link:
+//  https://shopee.co.id/Asus-ROG-Phone-3-ZS661KS-6A007ID-128GB-8GB-Black-i.155149633.6554463078
+func (sh *Shopee) ItemByLink(link string) (*Item, error) {
+	// check if link is in valid form or not
+	uri, err := url.Parse(link)
+	if err != nil {
+		return nil, errors.New("invalid item link")
+	}
+
+	if !strings.Contains(uri.Host, "shopee.") {
+		return nil, errors.New("invalid item link")
+	}
+
+	// extract item id and shop id
+	split := strings.Split(link, ".")
+	if len(split)-2 <= 0 {
+		return nil, errors.New("invalid item link")
+	}
+
+	shopIDStr := split[len(split)-2]
+	shopID, err := strconv.Atoi(shopIDStr)
+	if err != nil {
+		return nil, errors.New("invalid item link")
+	}
+
+	itemIDStr := split[len(split)-1]
+	itemID, err := strconv.Atoi(itemIDStr)
+	if err != nil {
+		return nil, errors.New("invalid item link")
+	}
+
+	return sh.ItemByIDAndShopID(itemID, shopID)
 }
