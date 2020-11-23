@@ -1,0 +1,307 @@
+package goshopee
+
+import (
+	"encoding/json"
+	"net/url"
+	"strconv"
+)
+
+// Item contains item or product detail
+type Item struct {
+	Item                                  *Item             `json:"item,omitempty"`
+	Itemid                                int               `json:"itemid,omitempty"`
+	PriceMaxBeforeDiscount                int               `json:"price_max_before_discount,omitempty"`
+	ItemStatus                            string            `json:"item_status,omitempty"`
+	CanUseWholesale                       bool              `json:"can_use_wholesale,omitempty"`
+	ShowFreeShipping                      bool              `json:"show_free_shipping,omitempty"`
+	EstimatedDays                         int               `json:"estimated_days,omitempty"`
+	IsHotSales                            bool              `json:"is_hot_sales,omitempty"`
+	IsSlashPriceItem                      bool              `json:"is_slash_price_item,omitempty"`
+	UpcomingFlashSale                     *Item             `json:"upcoming_flash_sale,omitempty"`
+	SlashLowestPrice                      interface{}       `json:"slash_lowest_price,omitempty"`
+	IsPartialFulfilled                    bool              `json:"is_partial_fulfilled,omitempty"`
+	Condition                             int               `json:"condition,omitempty"`
+	AddOnDealInfo                         interface{}       `json:"add_on_deal_info,omitempty"`
+	IsNonCcInstallmentPaymentEligible     bool              `json:"is_non_cc_installment_payment_eligible,omitempty"`
+	Categories                            []Category        `json:"categories,omitempty"`
+	Ctime                                 int               `json:"ctime,omitempty"`
+	Name                                  string            `json:"name,omitempty"`
+	ShowShopeeVerifiedLabel               bool              `json:"show_shopee_verified_label,omitempty"`
+	SizeChart                             interface{}       `json:"size_chart,omitempty"`
+	IsPreOrder                            bool              `json:"is_pre_order,omitempty"`
+	ServiceByShopeeFlag                   int               `json:"service_by_shopee_flag,omitempty"`
+	HistoricalSold                        int               `json:"historical_sold,omitempty"`
+	ReferenceItemID                       string            `json:"reference_item_id,omitempty"`
+	RecommendationInfo                    interface{}       `json:"recommendation_info,omitempty"`
+	BundleDealInfo                        interface{}       `json:"bundle_deal_info,omitempty"`
+	PriceMax                              int               `json:"price_max,omitempty"`
+	HasLowestPriceGuarantee               bool              `json:"has_lowest_price_guarantee,omitempty"`
+	ShippingIconType                      int               `json:"shipping_icon_type,omitempty"`
+	Images                                []string          `json:"images,omitempty"`
+	PriceBeforeDiscount                   int               `json:"price_before_discount,omitempty"`
+	CodFlag                               int               `json:"cod_flag,omitempty"`
+	Catid                                 int               `json:"catid,omitempty"`
+	IsOfficialShop                        bool              `json:"is_official_shop,omitempty"`
+	CoinEarnLabel                         interface{}       `json:"coin_earn_label,omitempty"`
+	HashtagList                           interface{}       `json:"hashtag_list,omitempty"`
+	Sold                                  int               `json:"sold,omitempty"`
+	Makeup                                interface{}       `json:"makeup,omitempty"`
+	ItemRating                            *Rating           `json:"item_rating,omitempty"`
+	ShowOfficialShopLabelInTitle          bool              `json:"show_official_shop_label_in_title,omitempty"`
+	Discount                              string            `json:"discount,omitempty"`
+	Reason                                interface{}       `json:"reason,omitempty"`
+	LabelIDS                              []int             `json:"label_ids,omitempty"`
+	HasGroupBuyStock                      bool              `json:"has_group_buy_stock,omitempty"`
+	OtherStock                            interface{}       `json:"other_stock,omitempty"`
+	DeepDiscount                          interface{}       `json:"deep_discount,omitempty"`
+	Attributes                            []Attribute       `json:"attributes,omitempty"`
+	BadgeIconType                         int               `json:"badge_icon_type,omitempty"`
+	Liked                                 bool              `json:"liked,omitempty"`
+	CmtCount                              int               `json:"cmt_count,omitempty"`
+	Image                                 string            `json:"image,omitempty"`
+	RecommendationAlgorithm               interface{}       `json:"recommendation_algorithm,omitempty"`
+	IsCcInstallmentPaymentEligible        bool              `json:"is_cc_installment_payment_eligible,omitempty"`
+	Shopid                                int               `json:"shopid,omitempty"`
+	NormalStock                           int               `json:"normal_stock,omitempty"`
+	VideoInfoList                         []interface{}     `json:"video_info_list,omitempty"`
+	InstallmentPlans                      []InstallmentPlan `json:"installment_plans,omitempty"`
+	ViewCount                             int               `json:"view_count,omitempty"`
+	CurrentPromotionHasReserveStock       bool              `json:"current_promotion_has_reserve_stock,omitempty"`
+	LikedCount                            int               `json:"liked_count,omitempty"`
+	ShowOfficialShopLabel                 bool              `json:"show_official_shop_label,omitempty"`
+	PriceMinBeforeDiscount                int               `json:"price_min_before_discount,omitempty"`
+	ShowDiscount                          int               `json:"show_discount,omitempty"`
+	PreviewInfo                           interface{}       `json:"preview_info,omitempty"`
+	Flag                                  int               `json:"flag,omitempty"`
+	ExclusivePriceInfo                    interface{}       `json:"exclusive_price_info,omitempty"`
+	CurrentPromotionReservedStock         int               `json:"current_promotion_reserved_stock,omitempty"`
+	WholesaleTierList                     []interface{}     `json:"wholesale_tier_list,omitempty"`
+	GroupBuyInfo                          interface{}       `json:"group_buy_info,omitempty"`
+	ShopeeVerified                        bool              `json:"shopee_verified,omitempty"`
+	HiddenPriceDisplay                    interface{}       `json:"hidden_price_display,omitempty"`
+	TransparentBackgroundImage            string            `json:"transparent_background_image,omitempty"`
+	WelcomePackageInfo                    interface{}       `json:"welcome_package_info,omitempty"`
+	DiscountStock                         interface{}       `json:"discount_stock,omitempty"`
+	CoinInfo                              *CoinInfo         `json:"coin_info,omitempty"`
+	IsAdult                               bool              `json:"is_adult,omitempty"`
+	Currency                              string            `json:"currency,omitempty"`
+	RawDiscount                           int               `json:"raw_discount,omitempty"`
+	IsPreferredPlusSeller                 bool              `json:"is_preferred_plus_seller,omitempty"`
+	IsCategoryFailed                      bool              `json:"is_category_failed,omitempty"`
+	PriceMin                              int               `json:"price_min,omitempty"`
+	CanUseBundleDeal                      bool              `json:"can_use_bundle_deal,omitempty"`
+	CbOption                              int               `json:"cb_option,omitempty"`
+	Brand                                 string            `json:"brand,omitempty"`
+	Stock                                 int               `json:"stock,omitempty"`
+	Status                                int               `json:"status,omitempty"`
+	BundleDealID                          int               `json:"bundle_deal_id,omitempty"`
+	IsGroupBuyItem                        bool              `json:"is_group_buy_item,omitempty"`
+	Description                           string            `json:"description,omitempty"`
+	FlashSale                             *Item             `json:"flash_sale,omitempty"`
+	Models                                []Model           `json:"models,omitempty"`
+	HasLowFulfillmentRate                 bool              `json:"has_low_fulfillment_rate,omitempty"`
+	Price                                 int               `json:"price,omitempty"`
+	ShopLocation                          string            `json:"shop_location,omitempty"`
+	TierVariations                        []TierVariation   `json:"tier_variations,omitempty"`
+	Makeups                               interface{}       `json:"makeups,omitempty"`
+	WelcomePackageType                    int               `json:"welcome_package_type,omitempty"`
+	ShowOfficialShopLabelInNormalPosition interface{}       `json:"show_official_shop_label_in_normal_position,omitempty"`
+	ItemType                              int               `json:"item_type,omitempty"`
+	Version                               string            `json:"version,omitempty"`
+	Data                                  *Data             `json:"data,omitempty"`
+	ErrorMsg                              interface{}       `json:"error_msg,omitempty"`
+	Error                                 interface{}       `json:"error,omitempty"`
+	BrandSaleBrandCustomLogo              interface{}       `json:"brand_sale_brand_custom_logo,omitempty"`
+	Voucher                               interface{}       `json:"voucher,omitempty"`
+	FlashSaleType                         int               `json:"flash_sale_type,omitempty"`
+	PromoOverlayImage                     string            `json:"promo_overlay_image,omitempty"`
+	Modelids                              interface{}       `json:"modelids,omitempty"`
+	PromoImages                           []string          `json:"promo_images,omitempty"`
+	Promotionid                           int               `json:"promotionid,omitempty"`
+	StartTime                             int               `json:"start_time,omitempty"`
+	ReminderCount                         interface{}       `json:"reminder_count,omitempty"`
+	FlashCatid                            int               `json:"flash_catid,omitempty"`
+	IsShopOfficial                        interface{}       `json:"is_shop_official,omitempty"`
+	FlashSaleStock                        int               `json:"flash_sale_stock,omitempty"`
+	CatLabel                              int               `json:"cat_label,omitempty"`
+	EndTime                               int               `json:"end_time,omitempty"`
+	IsShopPreferred                       interface{}       `json:"is_shop_preferred,omitempty"`
+	PromoName                             string            `json:"promo_name,omitempty"`
+}
+
+type InstallmentPlan struct {
+	Banks       []Bank `json:"banks,omitempty"`
+	ChannelName string `json:"channel_name,omitempty"`
+	IsCc        bool   `json:"is_cc,omitempty"`
+	Plans       []Plan `json:"plans,omitempty"`
+	ChannelIC   string `json:"channel_ic,omitempty"`
+}
+
+type Plan struct {
+	Duration       int         `json:"duration,omitempty"`
+	DisabledReason interface{} `json:"disabled_reason,omitempty"`
+	InterestRate   float64     `json:"interest_rate,omitempty"`
+	MonthlyPayment int         `json:"monthly_payment,omitempty"`
+	PlanName       string      `json:"plan_name,omitempty"`
+}
+
+type Bank struct {
+	BankName   string   `json:"bank_name,omitempty"`
+	SubOptions []Option `json:"sub_options,omitempty"`
+	BankID     int      `json:"bank_id,omitempty"`
+	BankLogo   string   `json:"bank_logo,omitempty"`
+}
+
+type Option struct {
+	DisabledReason *string `json:"disabled_reason,omitempty"`
+	Data           Data    `json:"data,omitempty"`
+	Name           string  `json:"name,omitempty"`
+	OptionInfo     string  `json:"option_info,omitempty"`
+}
+
+type Data struct {
+	BankName           string      `json:"bank_name,omitempty"`
+	DownPayment        int         `json:"down_payment,omitempty"`
+	Name               string      `json:"name,omitempty"`
+	InterestRate       float64     `json:"interest_rate,omitempty"`
+	OptionID           interface{} `json:"option_id,omitempty"`
+	BankID             int         `json:"bank_id,omitempty"`
+	InstallmentAmount  int         `json:"installment_amount,omitempty"`
+	ChannelID          interface{} `json:"channel_id,omitempty"`
+	MonthlyInstallment int         `json:"monthly_installment,omitempty"`
+	Tenure             int         `json:"tenure,omitempty"`
+	TotalAmount        int         `json:"total_amount,omitempty"`
+}
+
+type Attribute struct {
+	IsPendingQc bool   `json:"is_pending_qc,omitempty"`
+	Idx         int    `json:"idx,omitempty"`
+	Value       string `json:"value,omitempty"`
+	ID          int    `json:"id,omitempty"`
+	IsTimestamp bool   `json:"is_timestamp,omitempty"`
+	Name        string `json:"name,omitempty"`
+}
+
+type Category struct {
+	DisplayName        string      `json:"display_name,omitempty"`
+	Catid              int         `json:"catid,omitempty"`
+	Image              interface{} `json:"image,omitempty"`
+	NoSub              bool        `json:"no_sub,omitempty"`
+	IsDefaultSubcat    bool        `json:"is_default_subcat,omitempty"`
+	BlockBuyerPlatform interface{} `json:"block_buyer_platform,omitempty"`
+}
+
+type CoinInfo struct {
+	SpendCashUnit int           `json:"spend_cash_unit,omitempty"`
+	CoinEarnItems []interface{} `json:"coin_earn_items,omitempty"`
+}
+
+type Rating struct {
+	RatingStar        float64 `json:"rating_star,omitempty"`
+	RatingCount       []int   `json:"rating_count,omitempty"`
+	RcountWithImage   int     `json:"rcount_with_image,omitempty"`
+	RcountWithContext int     `json:"rcount_with_context,omitempty"`
+}
+
+type Model struct {
+	Itemid                          int          `json:"itemid,omitempty"`
+	Status                          int          `json:"status,omitempty"`
+	CurrentPromotionReservedStock   int          `json:"current_promotion_reserved_stock,omitempty"`
+	Name                            string       `json:"name,omitempty"`
+	Promotionid                     int          `json:"promotionid,omitempty"`
+	Price                           int          `json:"price,omitempty"`
+	PriceStocks                     []PriceStock `json:"price_stocks,omitempty"`
+	CurrentPromotionHasReserveStock bool         `json:"current_promotion_has_reserve_stock,omitempty"`
+	Currency                        string       `json:"currency,omitempty"`
+	NormalStock                     int          `json:"normal_stock,omitempty"`
+	Extinfo                         Extinfo      `json:"extinfo,omitempty"`
+	PriceBeforeDiscount             int          `json:"price_before_discount,omitempty"`
+	Modelid                         int          `json:"modelid,omitempty"`
+	Sold                            int          `json:"sold,omitempty"`
+	Stock                           int          `json:"stock,omitempty"`
+}
+
+type Extinfo struct {
+	SellerPromotionLimit       int         `json:"seller_promotion_limit,omitempty"`
+	HasShopeePromo             bool        `json:"has_shopee_promo,omitempty"`
+	GroupBuyInfo               interface{} `json:"group_buy_info,omitempty"`
+	HolidayModeOldStock        interface{} `json:"holiday_mode_old_stock,omitempty"`
+	TierIndex                  []int       `json:"tier_index,omitempty"`
+	SellerPromotionRefreshTime int         `json:"seller_promotion_refresh_time,omitempty"`
+}
+
+type PriceStock struct {
+	ModelID                  int           `json:"model_id,omitempty"`
+	StockoutTime             int           `json:"stockout_time,omitempty"`
+	Region                   string        `json:"region,omitempty"`
+	Rebate                   interface{}   `json:"rebate,omitempty"`
+	Price                    int           `json:"price,omitempty"`
+	PromotionType            int           `json:"promotion_type,omitempty"`
+	AllocatedStock           int           `json:"allocated_stock,omitempty"`
+	ShopID                   int           `json:"shop_id,omitempty"`
+	EndTime                  int           `json:"end_time,omitempty"`
+	StockBreakdownByLocation []interface{} `json:"stock_breakdown_by_location,omitempty"`
+	ItemID                   int           `json:"item_id,omitempty"`
+	PromotionID              int           `json:"promotion_id,omitempty"`
+	PurchaseLimit            int           `json:"purchase_limit,omitempty"`
+	StartTime                int           `json:"start_time,omitempty"`
+	Stock                    int           `json:"stock,omitempty"`
+}
+
+type TierVariation struct {
+	Images     []string      `json:"images,omitempty"`
+	Properties []interface{} `json:"properties,omitempty"`
+	Type       int           `json:"type,omitempty"`
+	Name       string        `json:"name,omitempty"`
+	Options    []string      `json:"options,omitempty"`
+}
+
+type UpcomingFlashSale struct {
+	Itemid                   interface{} `json:"itemid,omitempty"`
+	BrandSaleBrandCustomLogo interface{} `json:"brand_sale_brand_custom_logo,omitempty"`
+	Image                    interface{} `json:"image,omitempty"`
+	Shopid                   interface{} `json:"shopid,omitempty"`
+	Voucher                  interface{} `json:"voucher,omitempty"`
+	RawDiscount              interface{} `json:"raw_discount,omitempty"`
+	PriceBeforeDiscount      int         `json:"price_before_discount,omitempty"`
+	FlashSaleType            int         `json:"flash_sale_type,omitempty"`
+	PromoOverlayImage        string      `json:"promo_overlay_image,omitempty"`
+	Modelids                 []int       `json:"modelids,omitempty"`
+	PromoImages              []string    `json:"promo_images,omitempty"`
+	Price                    interface{} `json:"price,omitempty"`
+	Promotionid              int         `json:"promotionid,omitempty"`
+	StartTime                int         `json:"start_time,omitempty"`
+	ReminderCount            interface{} `json:"reminder_count,omitempty"`
+	Discount                 interface{} `json:"discount,omitempty"`
+	FlashCatid               int         `json:"flash_catid,omitempty"`
+	ReferenceItemID          interface{} `json:"reference_item_id,omitempty"`
+	IsShopOfficial           interface{} `json:"is_shop_official,omitempty"`
+	FlashSaleStock           interface{} `json:"flash_sale_stock,omitempty"`
+	Name                     interface{} `json:"name,omitempty"`
+	CatLabel                 int         `json:"cat_label,omitempty"`
+	ItemType                 interface{} `json:"item_type,omitempty"`
+	EndTime                  int         `json:"end_time,omitempty"`
+	IsShopPreferred          interface{} `json:"is_shop_preferred,omitempty"`
+	PromoName                string      `json:"promo_name,omitempty"`
+	Stock                    interface{} `json:"stock,omitempty"`
+	HiddenPriceDisplay       string      `json:"hidden_price_display,omitempty"`
+}
+
+// ItemByIDAndShopID get item by item id and shop id
+func (sh *Shopee) ItemByIDAndShopID(id, shopID int) (*Item, error) {
+	raw, err := sh.get("/item/get", url.Values{
+		"itemid": {strconv.Itoa(id)},
+		"shopid": {strconv.Itoa(shopID)},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	item := new(Item)
+	if err := json.Unmarshal(raw, item); err != nil {
+		return nil, err
+	}
+
+	return item, nil
+}
