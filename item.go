@@ -129,6 +129,8 @@ type Item struct {
 	EndTime                               int               `json:"end_time,omitempty"`
 	IsShopPreferred                       interface{}       `json:"is_shop_preferred,omitempty"`
 	PromoName                             string            `json:"promo_name,omitempty"`
+
+	sh *Shopee
 }
 
 type InstallmentPlan struct {
@@ -341,4 +343,9 @@ func (sh *Shopee) ItemByLink(link string) (*Item, error) {
 	}
 
 	return sh.ItemByIDAndShopID(itemID, shopID)
+}
+
+// SetShopee set client to item
+func (i *Item) SetShopee(sh *Shopee) {
+	i.sh = sh
 }
