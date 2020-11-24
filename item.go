@@ -326,7 +326,9 @@ func (sh *Shopee) ItemByIDAndShopID(id, shopID int) (*Item, error) {
 		return nil, err
 	}
 
-	return item, nil
+	item.Item.sh = sh
+
+	return item.Item, nil
 }
 
 // ItemByLink get item by link.
@@ -368,14 +370,6 @@ func (sh *Shopee) ItemByLink(link string) (*Item, error) {
 func (i *Item) SetShopee(sh *Shopee) {
 	i.sh = sh
 }
-
-// AddToCart add item to cart.
-// Increase qty for increase quantities.
-// Item can have different variations or models, so make sure to define which modelID you want to add
-// func (i *Item) AddToCart(modelID, qty int) (*Item, error) {
-
-// 	return nil, nil
-// }
 
 func composeItemURL(item *Item) string {
 	var urlStr string
