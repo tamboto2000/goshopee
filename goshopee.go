@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sync"
 	"time"
 )
 
@@ -27,7 +28,7 @@ var defaultHeader = http.Header{
 
 // Shopee is a client to wrap Shopee web internal API
 type Shopee struct {
-	cookies   []*http.Cookie
+	cookies   *sync.Map
 	client    *http.Client
 	userAgent string
 	csrfToken string
@@ -36,6 +37,7 @@ type Shopee struct {
 // New initiate Shopee client
 func New() *Shopee {
 	return &Shopee{
+		cookies:   new(sync.Map),
 		client:    new(http.Client),
 		userAgent: defaultUserAgent,
 	}
@@ -46,10 +48,12 @@ func (sh *Shopee) SetCookieStr(c string) {
 	header := http.Header{}
 	header.Add("Cookie", c)
 	request := http.Request{Header: header}
-	sh.cookies = request.Cookies()
+	for _, c := range request.Cookies() {
+		sh.cookies.Store(c.Name, c)
+	}
 
 	// get csrf token
-	for _, c := range sh.cookies {
+	for _, c := range request.Cookies() {
 		if c.Name == "csrftoken" {
 			sh.csrfToken = c.Value
 			break
@@ -91,9 +95,11 @@ func (sh *Shopee) get(path string, param url.Values) ([]byte, error) {
 	}
 
 	req.Header = defaultHeader
-	for _, c := range sh.cookies {
-		req.AddCookie(c)
-	}
+	sh.cookies.Range(func(key, value interface{}) bool {
+		req.AddCookie(value.(*http.Cookie))
+
+		return true
+	})
 
 	resp, err := sh.client.Do(req)
 	if err != nil {
@@ -107,46 +113,13 @@ func (sh *Shopee) get(path string, param url.Values) ([]byte, error) {
 		return nil, err
 	}
 
+	sh.mergeCookies(resp.Cookies())
+
 	if resp.StatusCode > 200 {
 		return nil, errors.New(string(raw))
 	}
 
-	sh.cookies = mergeCookies(sh.cookies, resp.Cookies())
-
 	return raw, nil
-}
-
-func mergeCookies(old, newC []*http.Cookie) []*http.Cookie {
-	cookies := make([]*http.Cookie, 0)
-	// replace old cookie with the new one
-	for i, cOld := range old {
-		for _, cNew := range newC {
-			if cOld.Name == cNew.Name {
-				old[i] = cNew
-
-				break
-			}
-		}
-	}
-
-	// add new cookies
-	for _, cNew := range newC {
-		isNew := true
-		for _, cOld := range old {
-			if cOld.Name == cNew.Name {
-				isNew = false
-				break
-			}
-		}
-
-		if isNew {
-			cookies = append(cookies, cNew)
-		}
-	}
-
-	cookies = append(cookies, old...)
-
-	return cookies
 }
 
 // request Shopee API with method POST
@@ -167,9 +140,11 @@ func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byt
 	}
 
 	req.Header = defaultHeader
-	for _, c := range sh.cookies {
-		req.AddCookie(c)
-	}
+	sh.cookies.Range(func(key, value interface{}) bool {
+		req.AddCookie(value.(*http.Cookie))
+
+		return true
+	})
 
 	// add csrf token to header
 	req.Header.Add("X-CSRFToken", sh.csrfToken)
@@ -190,6 +165,8 @@ func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byt
 		return nil, err
 	}
 
+	sh.mergeCookies(resp.Cookies())
+
 	if resp.StatusCode > 299 {
 		if len(raw) == 0 {
 			return nil, errors.New(resp.Status)
@@ -198,7 +175,36 @@ func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byt
 		return nil, errors.New(string(raw))
 	}
 
-	sh.cookies = mergeCookies(sh.cookies, resp.Cookies())
-
 	return raw, nil
+}
+
+func (sh *Shopee) mergeCookies(newC []*http.Cookie) {
+	// replace old cookies with new one
+	sh.cookies.Range(func(key, value interface{}) bool {
+		for _, c := range newC {
+			if key.(string) == c.Name {
+				sh.cookies.Delete(key)
+				sh.cookies.Store(key, c)
+			}
+		}
+
+		return true
+	})
+
+	// insert new cookies
+	for _, c := range newC {
+		isNew := true
+		sh.cookies.Range(func(key, value interface{}) bool {
+			if key.(string) == c.Name {
+				isNew = false
+				return false
+			}
+
+			return true
+		})
+
+		if isNew {
+			sh.cookies.Store(c.Name, c)
+		}
+	}
 }
