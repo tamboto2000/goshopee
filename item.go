@@ -23,7 +23,6 @@ type Item struct {
 	SlashLowestPrice                      interface{}       `json:"slash_lowest_price,omitempty"`
 	IsPartialFulfilled                    bool              `json:"is_partial_fulfilled,omitempty"`
 	Condition                             int               `json:"condition,omitempty"`
-	AddOnDealInfo                         interface{}       `json:"add_on_deal_info,omitempty"`
 	IsNonCcInstallmentPaymentEligible     bool              `json:"is_non_cc_installment_payment_eligible,omitempty"`
 	Categories                            []Category        `json:"categories,omitempty"`
 	Ctime                                 int               `json:"ctime,omitempty"`
@@ -65,7 +64,6 @@ type Item struct {
 	IsCcInstallmentPaymentEligible        bool              `json:"is_cc_installment_payment_eligible,omitempty"`
 	Shopid                                int               `json:"shopid,omitempty"`
 	NormalStock                           int               `json:"normal_stock,omitempty"`
-	VideoInfoList                         []interface{}     `json:"video_info_list,omitempty"`
 	InstallmentPlans                      []InstallmentPlan `json:"installment_plans,omitempty"`
 	ViewCount                             int               `json:"view_count,omitempty"`
 	CurrentPromotionHasReserveStock       bool              `json:"current_promotion_has_reserve_stock,omitempty"`
@@ -129,8 +127,26 @@ type Item struct {
 	EndTime                               int               `json:"end_time,omitempty"`
 	IsShopPreferred                       interface{}       `json:"is_shop_preferred,omitempty"`
 	PromoName                             string            `json:"promo_name,omitempty"`
+	Modelid                               int               `json:"modelid,omitempty"`
+	ItemGroupID                           int               `json:"item_group_id,omitempty"`
+	Quantity                              int               `json:"quantity,omitempty"`
+	AddOnDealInfo                         *AddOnDealInfo    `json:"add_on_deal_info,omitempty"`
+	VideoInfoList                         []VideoInfo       `json:"video_info_list,omitempty"`
 
 	sh *Shopee
+}
+
+type AddOnDealInfo struct {
+	AddOnDealID    int    `json:"add_on_deal_id,omitempty"`
+	AddOnDealLabel string `json:"add_on_deal_label,omitempty"`
+	SubType        int    `json:"sub_type,omitempty"`
+}
+
+type VideoInfo struct {
+	Duration int    `json:"duration,omitempty"`
+	VideoID  string `json:"video_id,omitempty"`
+	Version  int    `json:"version,omitempty"`
+	ThumbURL string `json:"thumb_url,omitempty"`
 }
 
 type InstallmentPlan struct {
@@ -164,17 +180,20 @@ type Option struct {
 }
 
 type Data struct {
-	BankName           string      `json:"bank_name,omitempty"`
-	DownPayment        int         `json:"down_payment,omitempty"`
-	Name               string      `json:"name,omitempty"`
-	InterestRate       float64     `json:"interest_rate,omitempty"`
-	OptionID           interface{} `json:"option_id,omitempty"`
-	BankID             int         `json:"bank_id,omitempty"`
-	InstallmentAmount  int         `json:"installment_amount,omitempty"`
-	ChannelID          interface{} `json:"channel_id,omitempty"`
-	MonthlyInstallment int         `json:"monthly_installment,omitempty"`
-	Tenure             int         `json:"tenure,omitempty"`
-	TotalAmount        int         `json:"total_amount,omitempty"`
+	CartItem                    *Item       `json:"cart_item,omitempty"`
+	ProblematicItems            interface{} `json:"problematic_items,omitempty"`
+	SwitchFulfillmentSourceText interface{} `json:"switch_fulfillment_source_text,omitempty"`
+	BankName                    string      `json:"bank_name,omitempty"`
+	DownPayment                 int         `json:"down_payment,omitempty"`
+	Name                        string      `json:"name,omitempty"`
+	InterestRate                float64     `json:"interest_rate,omitempty"`
+	OptionID                    interface{} `json:"option_id,omitempty"`
+	BankID                      int         `json:"bank_id,omitempty"`
+	InstallmentAmount           int         `json:"installment_amount,omitempty"`
+	ChannelID                   interface{} `json:"channel_id,omitempty"`
+	MonthlyInstallment          int         `json:"monthly_installment,omitempty"`
+	Tenure                      int         `json:"tenure,omitempty"`
+	TotalAmount                 int         `json:"total_amount,omitempty"`
 }
 
 type Attribute struct {
@@ -349,6 +368,14 @@ func (sh *Shopee) ItemByLink(link string) (*Item, error) {
 func (i *Item) SetShopee(sh *Shopee) {
 	i.sh = sh
 }
+
+// AddToCart add item to cart.
+// Increase qty for increase quantities.
+// Item can have different variations or models, so make sure to define which modelID you want to add
+// func (i *Item) AddToCart(modelID, qty int) (*Item, error) {
+
+// 	return nil, nil
+// }
 
 func composeItemURL(item *Item) string {
 	var urlStr string
