@@ -371,6 +371,46 @@ func (i *Item) SetShopee(sh *Shopee) {
 	i.sh = sh
 }
 
+// AddToCart add item to cart.
+// Increase qty for increase quantities.
+// Item can have different variations or models, so make sure to define which modelID you want to add.
+// If modelID == 0, the first model in Item.Models will be used.
+// Will use Add On Deal if present.
+func (i *Item) AddToCart(modelID, qty int) (*Item, error) {
+	body := map[string]interface{}{
+		"checkout":             true,
+		"client_source":        1,
+		"donot_add_quantity":   false,
+		"itemid":               i.Itemid,
+		"modelid":              modelID,
+		"quantity":             qty,
+		"shopid":               i.Shopid,
+		"source":               `{"refer_urls":[]}`,
+		"update_checkout_only": false,
+	}
+
+	if modelID == 0 {
+		body["modelid"] = i.Models[0].Modelid
+	}
+
+	if i.AddOnDealInfo != nil {
+		body["add_on_deal_id"] = i.AddOnDealInfo.AddOnDealID
+	}
+
+	refer := composeItemURL(i)
+	raw, err := i.sh.post("/cart/add_to_cart", refer, body)
+	if err != nil {
+		return nil, err
+	}
+
+	item := new(Item)
+	if err := json.Unmarshal(raw, item); err != nil {
+		return nil, err
+	}
+
+	return item, nil
+}
+
 func composeItemURL(item *Item) string {
 	var urlStr string
 	for _, c := range strings.Split(item.Name, "") {
