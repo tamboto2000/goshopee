@@ -13,7 +13,7 @@ import (
 
 const (
 	// base url for Shopee API
-	baseAPIURL = "https://shopee.co.id/api/v2"
+	baseAPIURL = "https://shopee.co.id/api"
 	// default User Agent. Change User Agent by calling Shopee.SetUserAgent
 	defaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0"
 )

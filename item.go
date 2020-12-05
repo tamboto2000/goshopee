@@ -312,7 +312,7 @@ type UpcomingFlashSale struct {
 
 // ItemByIDAndShopID get item by item id and shop id
 func (sh *Shopee) ItemByIDAndShopID(id, shopID int) (*Item, error) {
-	raw, err := sh.get("/item/get", url.Values{
+	raw, err := sh.get("/v2/item/get", url.Values{
 		"itemid": {strconv.Itoa(id)},
 		"shopid": {strconv.Itoa(shopID)},
 	})
@@ -398,7 +398,7 @@ func (i *Item) AddToCart(modelID, qty int) (*Item, error) {
 	}
 
 	refer := composeItemURL(i)
-	raw, err := i.sh.post("/cart/add_to_cart", refer, body)
+	raw, err := i.sh.post("/v2/cart/add_to_cart", refer, body)
 	if err != nil {
 		return nil, err
 	}
