@@ -180,20 +180,114 @@ type Option struct {
 }
 
 type Data struct {
-	CartItem                    *Item       `json:"cart_item,omitempty"`
-	ProblematicItems            interface{} `json:"problematic_items,omitempty"`
-	SwitchFulfillmentSourceText interface{} `json:"switch_fulfillment_source_text,omitempty"`
-	BankName                    string      `json:"bank_name,omitempty"`
-	DownPayment                 int         `json:"down_payment,omitempty"`
-	Name                        string      `json:"name,omitempty"`
-	InterestRate                float64     `json:"interest_rate,omitempty"`
-	OptionID                    interface{} `json:"option_id,omitempty"`
-	BankID                      int         `json:"bank_id,omitempty"`
-	InstallmentAmount           int         `json:"installment_amount,omitempty"`
-	ChannelID                   interface{} `json:"channel_id,omitempty"`
-	MonthlyInstallment          int         `json:"monthly_installment,omitempty"`
-	Tenure                      int         `json:"tenure,omitempty"`
-	TotalAmount                 int         `json:"total_amount,omitempty"`
+	CartItem                       *Item                    `json:"cart_item,omitempty"`
+	ProblematicItems               interface{}              `json:"problematic_items,omitempty"`
+	SwitchFulfillmentSourceText    interface{}              `json:"switch_fulfillment_source_text,omitempty"`
+	BankName                       string                   `json:"bank_name,omitempty"`
+	DownPayment                    int                      `json:"down_payment,omitempty"`
+	Name                           string                   `json:"name,omitempty"`
+	InterestRate                   float64                  `json:"interest_rate,omitempty"`
+	OptionID                       interface{}              `json:"option_id,omitempty"`
+	BankID                         int                      `json:"bank_id,omitempty"`
+	InstallmentAmount              int                      `json:"installment_amount,omitempty"`
+	ChannelID                      interface{}              `json:"channel_id,omitempty"`
+	MonthlyInstallment             int                      `json:"monthly_installment,omitempty"`
+	Tenure                         int                      `json:"tenure,omitempty"`
+	TotalAmount                    int                      `json:"total_amount,omitempty"`
+	RebateRoundingFactor           int                      `json:"rebate_rounding_factor,omitempty"`
+	BuyerLocationGroupID           int                      `json:"buyer_location_group_id,omitempty"`
+	BuyerListEntityPermissionGroup int                      `json:"buyer_list_entity_permission_group,omitempty"`
+	SellerLocationGroupID          int                      `json:"seller_location_group_id,omitempty"`
+	PercentageRebateCap            int                      `json:"percentage_rebate_cap,omitempty"`
+	PercentageDiscountCap          int                      `json:"percentage_discount_cap,omitempty"`
+	MinOrderTotal                  int                      `json:"min_order_total,omitempty"`
+	EntityPermissionGroup          int                      `json:"entity_permission_group,omitempty"`
+	DiscountRoundingFactor         int                      `json:"discount_rounding_factor,omitempty"`
+	PaymentType                    int                      `json:"payment_type,omitempty"`
+	CustomLabel1                   string                   `json:"custom_label1,omitempty"`
+	CustomLabel2                   string                   `json:"custom_label2,omitempty"`
+	AllPromotionRules              []AllPromotionRule       `json:"all_promotion_rules,omitempty"`
+	ShopOrders                     []ShopOrder              `json:"shop_orders,omitempty"`
+	Fsv                            *Fsv                     `json:"fsv,omitempty"`
+	ShopOrderIDS                   []ShopOrder              `json:"shop_order_ids,omitempty"`
+	LogisticsChannels              []LogisticsChannel       `json:"logistics_channels,omitempty"`
+	AddOnDeals                     []interface{}            `json:"add_on_deals,omitempty"`
+	IsFreeShippingVoucherToggledOn bool                     `json:"is_free_shipping_voucher_toggled_on,omitempty"`
+	CoinMinRedeem                  int                      `json:"coin_min_redeem,omitempty"`
+	BuyerLocationGroupIDS          []int                    `json:"buyer_location_group_ids,omitempty"`
+	ShopOrderIDList                []ShopOrder              `json:"shop_order_id_list,omitempty"`
+	DiscountTabShopOrderIDS        *DiscountTabShopOrderIDS `json:"discount_tab_shop_order_ids,omitempty"`
+	DisableTab                     bool                     `json:"disable_tab,omitempty"`
+	ShowTabs                       []string                 `json:"show_tabs,omitempty"`
+}
+
+type AllPromotionRule struct {
+	DiscountDelta    int      `json:"discount_delta,omitempty"`
+	ChannelIDS       []string `json:"channel_ids,omitempty"`
+	Shopid           int      `json:"shopid,omitempty"`
+	DiscountRuleFlag int      `json:"discount_rule_flag,omitempty"`
+	RebateFlag       int      `json:"rebate_flag,omitempty"`
+	Priority         int      `json:"priority,omitempty"`
+	ExtraData        *Data    `json:"extra_data,omitempty"`
+	ID               int      `json:"id,omitempty"`
+	DiscountFlag     int      `json:"discount_flag,omitempty"`
+}
+
+type ShopOrder struct {
+	ShopHasVoucher interface{} `json:"shop_has_voucher,omitempty"`
+	Shop           *Shop       `json:"shop,omitempty"`
+	Items          []Item      `json:"items,omitempty"`
+	Shopid         int         `json:"shopid,omitempty"`
+	AddinTime      int         `json:"addin_time,omitempty"`
+	ClickTime      interface{} `json:"click_time,omitempty"`
+	ItemBriefs     []ItemBrief `json:"item_briefs,omitempty"`
+}
+
+type Shop struct {
+	Shopname              string   `json:"shopname,omitempty"`
+	HolidayModeOn         bool     `json:"holiday_mode_on,omitempty"`
+	Shopid                int      `json:"shopid,omitempty"`
+	Username              string   `json:"username,omitempty"`
+	Status                int      `json:"status,omitempty"`
+	CbOption              int      `json:"cb_option,omitempty"`
+	ShowOfficialShopLabel bool     `json:"show_official_shop_label,omitempty"`
+	Portrait              string   `json:"portrait,omitempty"`
+	FollowingCount        int      `json:"following_count,omitempty"`
+	Userid                int      `json:"userid,omitempty"`
+	IsFreeShipping        bool     `json:"is_free_shipping,omitempty"`
+	IsShopeeVerified      bool     `json:"is_shopee_verified,omitempty"`
+	HasWelcomePackageItem bool     `json:"has_welcome_package_item,omitempty"`
+	EnabledChannelids     []string `json:"enabled_channelids,omitempty"`
+	PromotionRules        []int    `json:"promotion_rules,omitempty"`
+	ShopTag               int      `json:"shop_tag,omitempty"`
+	AddinTime             int      `json:"addin_time,omitempty"`
+	ClickTime             int      `json:"click_time,omitempty"`
+}
+
+type Fsv struct {
+	FsvMessage string      `json:"fsv_message,omitempty"`
+	URL        string      `json:"url,omitempty"`
+	Error      interface{} `json:"error,omitempty"`
+	ErrorMsg   interface{} `json:"error_msg,omitempty"`
+}
+
+type ItemBrief struct {
+	Itemid      int         `json:"itemid,omitempty"`
+	Modelid     int         `json:"modelid,omitempty"`
+	ItemGroupID interface{} `json:"item_group_id,omitempty"`
+	Quantity    int         `json:"quantity,omitempty"`
+}
+
+type LogisticsChannel struct {
+	Category    int    `json:"category,omitempty"`
+	MinimumCost int    `json:"minimum_cost,omitempty"`
+	Name        string `json:"name,omitempty"`
+	ChannelID   int    `json:"channel_id,omitempty"`
+}
+
+type DiscountTabShopOrderIDS struct {
+	Discount []interface{} `json:"discount,omitempty"`
+	Other    []interface{} `json:"other,omitempty"`
 }
 
 type Attribute struct {
@@ -237,7 +331,7 @@ type Model struct {
 	CurrentPromotionHasReserveStock bool         `json:"current_promotion_has_reserve_stock,omitempty"`
 	Currency                        string       `json:"currency,omitempty"`
 	NormalStock                     int          `json:"normal_stock,omitempty"`
-	Extinfo                         Extinfo      `json:"extinfo,omitempty"`
+	Extinfo                         *Extinfo     `json:"extinfo,omitempty"`
 	PriceBeforeDiscount             int          `json:"price_before_discount,omitempty"`
 	Modelid                         int          `json:"modelid,omitempty"`
 	Sold                            int          `json:"sold,omitempty"`
