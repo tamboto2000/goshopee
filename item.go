@@ -373,37 +373,6 @@ type TierVariation struct {
 	Options    []string      `json:"options,omitempty"`
 }
 
-type UpcomingFlashSale struct {
-	Itemid                   interface{} `json:"itemid,omitempty"`
-	BrandSaleBrandCustomLogo interface{} `json:"brand_sale_brand_custom_logo,omitempty"`
-	Image                    interface{} `json:"image,omitempty"`
-	Shopid                   interface{} `json:"shopid,omitempty"`
-	Voucher                  interface{} `json:"voucher,omitempty"`
-	RawDiscount              interface{} `json:"raw_discount,omitempty"`
-	PriceBeforeDiscount      int         `json:"price_before_discount,omitempty"`
-	FlashSaleType            int         `json:"flash_sale_type,omitempty"`
-	PromoOverlayImage        string      `json:"promo_overlay_image,omitempty"`
-	Modelids                 []int       `json:"modelids,omitempty"`
-	PromoImages              []string    `json:"promo_images,omitempty"`
-	Price                    interface{} `json:"price,omitempty"`
-	Promotionid              int         `json:"promotionid,omitempty"`
-	StartTime                int         `json:"start_time,omitempty"`
-	ReminderCount            interface{} `json:"reminder_count,omitempty"`
-	Discount                 interface{} `json:"discount,omitempty"`
-	FlashCatid               int         `json:"flash_catid,omitempty"`
-	ReferenceItemID          interface{} `json:"reference_item_id,omitempty"`
-	IsShopOfficial           interface{} `json:"is_shop_official,omitempty"`
-	FlashSaleStock           interface{} `json:"flash_sale_stock,omitempty"`
-	Name                     interface{} `json:"name,omitempty"`
-	CatLabel                 int         `json:"cat_label,omitempty"`
-	ItemType                 interface{} `json:"item_type,omitempty"`
-	EndTime                  int         `json:"end_time,omitempty"`
-	IsShopPreferred          interface{} `json:"is_shop_preferred,omitempty"`
-	PromoName                string      `json:"promo_name,omitempty"`
-	Stock                    interface{} `json:"stock,omitempty"`
-	HiddenPriceDisplay       string      `json:"hidden_price_display,omitempty"`
-}
-
 // ItemByIDAndShopID get item by item id and shop id
 func (sh *Shopee) ItemByIDAndShopID(id, shopID int) (*Item, error) {
 	raw, err := sh.get("/v2/item/get", url.Values{
@@ -484,7 +453,13 @@ func (i *Item) AddToCart(modelID, qty int) (*Item, error) {
 	}
 
 	if modelID == 0 {
-		body["modelid"] = i.Models[0].Modelid
+		if len(i.Models) > 0 {
+			body["modelid"] = i.Models[0].Modelid
+		}
+
+		if i.Modelid != 0 {
+			body["modelid"] = i.Modelid
+		}
 	}
 
 	if i.AddOnDealInfo != nil {
@@ -500,6 +475,10 @@ func (i *Item) AddToCart(modelID, qty int) (*Item, error) {
 	item := new(Item)
 	if err := json.Unmarshal(raw, item); err != nil {
 		return nil, err
+	}
+
+	if item.Error != nil {
+		return nil, errors.New(string(raw))
 	}
 
 	return item, nil
