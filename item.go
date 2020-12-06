@@ -110,7 +110,7 @@ type Item struct {
 	Version                               string            `json:"version,omitempty"`
 	Data                                  *Data             `json:"data,omitempty"`
 	ErrorMsg                              interface{}       `json:"error_msg,omitempty"`
-	Error                                 interface{}       `json:"error,omitempty"`
+	Error                                 int               `json:"error,omitempty"`
 	BrandSaleBrandCustomLogo              interface{}       `json:"brand_sale_brand_custom_logo,omitempty"`
 	Voucher                               interface{}       `json:"voucher,omitempty"`
 	FlashSaleType                         int               `json:"flash_sale_type,omitempty"`
@@ -477,7 +477,7 @@ func (i *Item) AddToCart(modelID, qty int) (*Item, error) {
 		return nil, err
 	}
 
-	if item.Error != nil {
+	if item.Error > 0 {
 		return nil, errors.New(string(raw))
 	}
 
