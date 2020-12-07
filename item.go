@@ -367,24 +367,24 @@ type Rating struct {
 }
 
 type Model struct {
-	Itemid                          int          `json:"itemid,omitempty"`
-	Status                          int          `json:"status,omitempty"`
-	CurrentPromotionReservedStock   int          `json:"current_promotion_reserved_stock,omitempty"`
-	Name                            string       `json:"name,omitempty"`
-	Promotionid                     int          `json:"promotionid,omitempty"`
-	Price                           int          `json:"price,omitempty"`
-	PriceStocks                     []PriceStock `json:"price_stocks,omitempty"`
-	CurrentPromotionHasReserveStock bool         `json:"current_promotion_has_reserve_stock,omitempty"`
-	Currency                        string       `json:"currency,omitempty"`
-	NormalStock                     int          `json:"normal_stock,omitempty"`
-	Extinfo                         *Extinfo     `json:"extinfo,omitempty"`
-	PriceBeforeDiscount             int          `json:"price_before_discount,omitempty"`
-	Modelid                         int          `json:"modelid,omitempty"`
-	Sold                            int          `json:"sold,omitempty"`
-	Stock                           int          `json:"stock,omitempty"`
+	Itemid                          int           `json:"itemid,omitempty"`
+	Status                          int           `json:"status,omitempty"`
+	CurrentPromotionReservedStock   int           `json:"current_promotion_reserved_stock,omitempty"`
+	Name                            string        `json:"name,omitempty"`
+	Promotionid                     int           `json:"promotionid,omitempty"`
+	Price                           int           `json:"price,omitempty"`
+	PriceStocks                     []PriceStock  `json:"price_stocks,omitempty"`
+	CurrentPromotionHasReserveStock bool          `json:"current_promotion_has_reserve_stock,omitempty"`
+	Currency                        string        `json:"currency,omitempty"`
+	NormalStock                     int           `json:"normal_stock,omitempty"`
+	Extinfo                         *ModelExtinfo `json:"extinfo,omitempty"`
+	PriceBeforeDiscount             int           `json:"price_before_discount,omitempty"`
+	Modelid                         int           `json:"modelid,omitempty"`
+	Sold                            int           `json:"sold,omitempty"`
+	Stock                           int           `json:"stock,omitempty"`
 }
 
-type Extinfo struct {
+type ModelExtinfo struct {
 	SellerPromotionLimit       int         `json:"seller_promotion_limit,omitempty"`
 	HasShopeePromo             bool        `json:"has_shopee_promo,omitempty"`
 	GroupBuyInfo               interface{} `json:"group_buy_info,omitempty"`
