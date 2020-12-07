@@ -15,13 +15,14 @@ const (
 
 // Cart contains info about your cart
 type Cart struct {
-	Data                 *Data         `json:"data,omitempty"`
-	Error                int           `json:"error,omitempty"`
-	ErrorMessage         string        `json:"error_message,omitempty"`
-	MessageLevel         *MessageLevel `json:"message_level,omitempty"`
-	WarnMessage          interface{}   `json:"warn_message,omitempty"`
-	SelectedShopOrderIDS []ShopOrder   `json:"selected_shop_order_ids,omitempty"`
-	PlatformVouchers     []interface{} `json:"platform_vouchers,omitempty"`
+	Data                 *Data          `json:"data,omitempty"`
+	Error                int            `json:"error,omitempty"`
+	ErrorMessage         string         `json:"error_message,omitempty"`
+	MessageLevel         *MessageLevel  `json:"message_level,omitempty"`
+	WarnMessage          interface{}    `json:"warn_message,omitempty"`
+	SelectedShopOrderIDS []ShopOrder    `json:"selected_shop_order_ids,omitempty"`
+	PlatformVouchers     []interface{}  `json:"platform_vouchers,omitempty"`
+	Addresses            *UserAddresses `json:"addresses"`
 
 	sh *Shopee
 }
@@ -51,6 +52,23 @@ func (sh *Shopee) Cart() (*Cart, error) {
 	cart.sh = sh
 
 	return cart, nil
+}
+
+// SyncAddresses get user's addresses, assigned to Cart
+func (cart *Cart) SyncAddresses() error {
+	raw, err := cart.sh.get("/v1/addresses/", nil)
+	if err != nil {
+		return err
+	}
+
+	userAddr := new(UserAddresses)
+	if err := json.Unmarshal(raw, userAddr); err != nil {
+		return err
+	}
+
+	cart.Addresses = userAddr
+
+	return nil
 }
 
 // CheckoutAll checkout all items in cart.
