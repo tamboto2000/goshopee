@@ -276,7 +276,7 @@ type ShopOrder struct {
 	Shop           *Shop         `json:"shop,omitempty"`
 	Items          []Item        `json:"items,omitempty"`
 	Shopid         int           `json:"shopid,omitempty"`
-	AddinTime      int           `json:"addin_time,omitempty"`
+	AddinTime      int64         `json:"addin_time,omitempty"`
 	ClickTime      interface{}   `json:"click_time,omitempty"`
 	ItemBriefs     []ItemBrief   `json:"item_briefs,omitempty"`
 	ShopVouchers   []interface{} `json:"shop_vouchers,omitempty"`
