@@ -219,6 +219,40 @@ type Data struct {
 	DiscountTabShopOrderIDS        *DiscountTabShopOrderIDS `json:"discount_tab_shop_order_ids,omitempty"`
 	DisableTab                     bool                     `json:"disable_tab,omitempty"`
 	ShowTabs                       []string                 `json:"show_tabs,omitempty"`
+	Shoporders                     []interface{}            `json:"shoporders"`
+	CanUseCoins                    bool                     `json:"can_use_coins"`
+	UseCoins                       bool                     `json:"use_coins"`
+	CoinDiscount                   int64                    `json:"coin_discount"`
+	CoinInfo                       CoinInfo                 `json:"coin_info"`
+	CoinText                       string                   `json:"coin_text"`
+	CoinDetailedText               string                   `json:"coin_detailed_text"`
+	Taxes                          Taxes                    `json:"taxes"`
+	CardPromotionID                int64                    `json:"card_promotion_id"`
+	CardPromotionDiscount          int64                    `json:"card_promotion_discount"`
+	CardPromotionEnabled           bool                     `json:"card_promotion_enabled"`
+	Description                    string                   `json:"description"`
+	PromotionMsg                   string                   `json:"promotion_msg"`
+	InvalidMessageCode             int64                    `json:"invalid_message_code"`
+	InvalidMessage                 string                   `json:"invalid_message"`
+	PlatformVouchers               []interface{}            `json:"platform_vouchers"`
+	ShopVouchers                   []interface{}            `json:"shop_vouchers"`
+	FreeShippingVoucherInfo        FreeShippingVoucherInfo  `json:"free_shipping_voucher_info"`
+	TotalPayment                   []int64                  `json:"total_payment"`
+	BundleDeals                    []interface{}            `json:"bundle_deals"`
+	BundleDealsPromotionDiscount   int64                    `json:"bundle_deals_promotion_discount"`
+	ShopVoucherEntrance            []interface{}            `json:"shop_voucher_entrance"`
+}
+
+type Taxes struct {
+	Orders []int64 `json:"orders"`
+	Total  int64   `json:"total"`
+}
+
+type FreeShippingVoucherInfo struct {
+	FreeShippingVoucherID   int64       `json:"free_shipping_voucher_id"`
+	FreeShippingVoucherCode interface{} `json:"free_shipping_voucher_code"`
+	DisabledReason          string      `json:"disabled_reason"`
+	Description             string      `json:"description"`
 }
 
 type AllPromotionRule struct {
