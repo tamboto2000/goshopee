@@ -6,6 +6,7 @@ GoShopee is a wraper library for Shopee internal web API. Its still in developme
 
   - Lookup item by Shop ID and Item ID
   - Add Item to Cart
+  - Checkout all items in cart
 
 ### Installation
 
