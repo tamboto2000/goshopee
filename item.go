@@ -299,7 +299,7 @@ type Shop struct {
 	EnabledChannelids     []string `json:"enabled_channelids,omitempty"`
 	PromotionRules        []int    `json:"promotion_rules,omitempty"`
 	ShopTag               int      `json:"shop_tag,omitempty"`
-	AddinTime             int      `json:"addin_time,omitempty"`
+	AddinTime             int64    `json:"addin_time,omitempty"`
 	ClickTime             int      `json:"click_time,omitempty"`
 }
 
