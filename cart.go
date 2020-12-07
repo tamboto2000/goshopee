@@ -53,7 +53,8 @@ func (sh *Shopee) Cart() (*Cart, error) {
 	return cart, nil
 }
 
-// CheckoutAll checkout all items in cart
+// CheckoutAll checkout all items in cart.
+// This API is not necessarily affect payment, but it's useful for checking items payability
 func (cart *Cart) CheckoutAll() error {
 	body := make(map[string]interface{})
 	shopOrders := make([]ShopOrder, 0)
