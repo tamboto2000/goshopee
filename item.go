@@ -219,40 +219,44 @@ type Data struct {
 	DiscountTabShopOrderIDS        *DiscountTabShopOrderIDS `json:"discount_tab_shop_order_ids,omitempty"`
 	DisableTab                     bool                     `json:"disable_tab,omitempty"`
 	ShowTabs                       []string                 `json:"show_tabs,omitempty"`
-	Shoporders                     []interface{}            `json:"shoporders"`
-	CanUseCoins                    bool                     `json:"can_use_coins"`
-	UseCoins                       bool                     `json:"use_coins"`
-	CoinDiscount                   int64                    `json:"coin_discount"`
-	CoinInfo                       CoinInfo                 `json:"coin_info"`
-	CoinText                       string                   `json:"coin_text"`
-	CoinDetailedText               string                   `json:"coin_detailed_text"`
-	Taxes                          Taxes                    `json:"taxes"`
-	CardPromotionID                int64                    `json:"card_promotion_id"`
-	CardPromotionDiscount          int64                    `json:"card_promotion_discount"`
-	CardPromotionEnabled           bool                     `json:"card_promotion_enabled"`
-	Description                    string                   `json:"description"`
-	PromotionMsg                   string                   `json:"promotion_msg"`
-	InvalidMessageCode             int64                    `json:"invalid_message_code"`
-	InvalidMessage                 string                   `json:"invalid_message"`
-	PlatformVouchers               []interface{}            `json:"platform_vouchers"`
-	ShopVouchers                   []interface{}            `json:"shop_vouchers"`
-	FreeShippingVoucherInfo        FreeShippingVoucherInfo  `json:"free_shipping_voucher_info"`
-	TotalPayment                   []int64                  `json:"total_payment"`
-	BundleDeals                    []interface{}            `json:"bundle_deals"`
-	BundleDealsPromotionDiscount   int64                    `json:"bundle_deals_promotion_discount"`
-	ShopVoucherEntrance            []interface{}            `json:"shop_voucher_entrance"`
+	Shoporders                     []interface{}            `json:"shoporders,omitempty"`
+	CanUseCoins                    bool                     `json:"can_use_coins,omitempty"`
+	UseCoins                       bool                     `json:"use_coins,omitempty"`
+	CoinDiscount                   int64                    `json:"coin_discount,omitempty"`
+	CoinInfo                       CoinInfo                 `json:"coin_info,omitempty"`
+	CoinText                       string                   `json:"coin_text,omitempty"`
+	CoinDetailedText               string                   `json:"coin_detailed_text,omitempty"`
+	Taxes                          Taxes                    `json:"taxes,omitempty"`
+	CardPromotionID                int64                    `json:"card_promotion_id,omitempty"`
+	CardPromotionDiscount          int64                    `json:"card_promotion_discount,omitempty"`
+	CardPromotionEnabled           bool                     `json:"card_promotion_enabled,omitempty"`
+	Description                    string                   `json:"description,omitempty"`
+	PromotionMsg                   string                   `json:"promotion_msg,omitempty"`
+	InvalidMessageCode             int64                    `json:"invalid_message_code,omitempty"`
+	InvalidMessage                 string                   `json:"invalid_message,omitempty"`
+	PlatformVouchers               []interface{}            `json:"platform_vouchers,omitempty"`
+	ShopVouchers                   []interface{}            `json:"shop_vouchers,omitempty"`
+	FreeShippingVoucherInfo        *FreeShippingVoucherInfo `json:"free_shipping_voucher_info,omitempty"`
+	TotalPayment                   []int64                  `json:"total_payment,omitempty"`
+	BundleDeals                    []interface{}            `json:"bundle_deals,omitempty"`
+	BundleDealsPromotionDiscount   int64                    `json:"bundle_deals_promotion_discount,omitempty"`
+	ShopVoucherEntrance            []interface{}            `json:"shop_voucher_entrance,omitempty"`
+	Error                          int                      `json:"error,omitempty"`
+	ErrorMessage                   string                   `json:"error_message,omitempty"`
+	MessageLevel                   *MessageLevel            `json:"message_level,omitempty"`
+	WarnMessage                    interface{}              `json:"warn_message,omitempty"`
 }
 
 type Taxes struct {
-	Orders []int64 `json:"orders"`
-	Total  int64   `json:"total"`
+	Orders []int64 `json:"orders,omitempty"`
+	Total  int64   `json:"total,omitempty"`
 }
 
 type FreeShippingVoucherInfo struct {
-	FreeShippingVoucherID   int64       `json:"free_shipping_voucher_id"`
-	FreeShippingVoucherCode interface{} `json:"free_shipping_voucher_code"`
-	DisabledReason          string      `json:"disabled_reason"`
-	Description             string      `json:"description"`
+	FreeShippingVoucherID   int64       `json:"free_shipping_voucher_id,omitempty"`
+	FreeShippingVoucherCode interface{} `json:"free_shipping_voucher_code,omitempty"`
+	DisabledReason          string      `json:"disabled_reason,omitempty"`
+	Description             string      `json:"description,omitempty"`
 }
 
 type AllPromotionRule struct {
@@ -268,13 +272,14 @@ type AllPromotionRule struct {
 }
 
 type ShopOrder struct {
-	ShopHasVoucher interface{} `json:"shop_has_voucher,omitempty"`
-	Shop           *Shop       `json:"shop,omitempty"`
-	Items          []Item      `json:"items,omitempty"`
-	Shopid         int         `json:"shopid,omitempty"`
-	AddinTime      int         `json:"addin_time,omitempty"`
-	ClickTime      interface{} `json:"click_time,omitempty"`
-	ItemBriefs     []ItemBrief `json:"item_briefs,omitempty"`
+	ShopHasVoucher interface{}   `json:"shop_has_voucher,omitempty"`
+	Shop           *Shop         `json:"shop,omitempty"`
+	Items          []Item        `json:"items,omitempty"`
+	Shopid         int           `json:"shopid,omitempty"`
+	AddinTime      int           `json:"addin_time,omitempty"`
+	ClickTime      interface{}   `json:"click_time,omitempty"`
+	ItemBriefs     []ItemBrief   `json:"item_briefs,omitempty"`
+	ShopVouchers   []interface{} `json:"shop_vouchers,omitempty"`
 }
 
 type Shop struct {
@@ -306,10 +311,17 @@ type Fsv struct {
 }
 
 type ItemBrief struct {
-	Itemid      int         `json:"itemid,omitempty"`
-	Modelid     int         `json:"modelid,omitempty"`
-	ItemGroupID interface{} `json:"item_group_id,omitempty"`
-	Quantity    int         `json:"quantity,omitempty"`
+	Itemid             int  `json:"itemid,omitempty"`
+	Modelid            int  `json:"modelid,omitempty"`
+	ItemGroupID        int  `json:"item_group_id,omitempty"`
+	Quantity           int  `json:"quantity,omitempty"`
+	AppliedPromotionID int  `json:"applied_promotion_id,omitempty"`
+	OfferID            int  `json:"offerid,omitempty"`
+	Price              int  `json:"price,omitempty"`
+	IsAddOnSubItem     bool `json:"is_add_on_sub_item,omitempty"`
+	AddOnDealID        int  `json:"add_on_deal_id,omitempty"`
+	Status             int  `json:"status,omitempty"`
+	CartItemChangeTime int  `json:"cart_item_change_time,omitempty"`
 }
 
 type LogisticsChannel struct {
