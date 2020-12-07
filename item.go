@@ -311,17 +311,17 @@ type Fsv struct {
 }
 
 type ItemBrief struct {
-	Itemid             int  `json:"itemid,omitempty"`
-	Modelid            int  `json:"modelid,omitempty"`
-	ItemGroupID        int  `json:"item_group_id,omitempty"`
-	Quantity           int  `json:"quantity,omitempty"`
-	AppliedPromotionID int  `json:"applied_promotion_id,omitempty"`
-	OfferID            int  `json:"offerid,omitempty"`
-	Price              int  `json:"price,omitempty"`
-	IsAddOnSubItem     bool `json:"is_add_on_sub_item,omitempty"`
-	AddOnDealID        int  `json:"add_on_deal_id,omitempty"`
-	Status             int  `json:"status,omitempty"`
-	CartItemChangeTime int  `json:"cart_item_change_time,omitempty"`
+	Itemid             int   `json:"itemid,omitempty"`
+	Modelid            int   `json:"modelid,omitempty"`
+	ItemGroupID        int   `json:"item_group_id,omitempty"`
+	Quantity           int   `json:"quantity,omitempty"`
+	AppliedPromotionID int   `json:"applied_promotion_id,omitempty"`
+	OfferID            int   `json:"offerid,omitempty"`
+	Price              int   `json:"price,omitempty"`
+	IsAddOnSubItem     bool  `json:"is_add_on_sub_item,omitempty"`
+	AddOnDealID        int   `json:"add_on_deal_id,omitempty"`
+	Status             int   `json:"status,omitempty"`
+	CartItemChangeTime int64 `json:"cart_item_change_time,omitempty"`
 }
 
 type LogisticsChannel struct {
