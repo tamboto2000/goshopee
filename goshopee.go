@@ -19,11 +19,13 @@ const (
 )
 
 var defaultHeader = http.Header{
-	"User-Agent":       {defaultUserAgent},
-	"Accept":           {"application/json"},
-	"X-Requested-With": {"XMLHttpRequest"},
-	"X-API-SOURCE":     {"pc"},
-	"Connection":       {"keep-alive"},
+	"User-Agent":        {defaultUserAgent},
+	"Accept":            {"application/json"},
+	"Accept-Language":   {"en-US,en;q=0.5"},
+	"X-Requested-With":  {"XMLHttpRequest"},
+	"X-API-SOURCE":      {"pc"},
+	"Connection":        {"keep-alive"},
+	"X-Shopee-Language": {"id"},
 }
 
 // Shopee is a client to wrap Shopee web internal API
@@ -147,11 +149,11 @@ func (sh *Shopee) post(path, referer string, body map[string]interface{}) ([]byt
 	})
 
 	// add csrf token to header
-	req.Header.Add("X-CSRFToken", sh.csrfToken)
+	req.Header.Set("X-CSRFToken", sh.csrfToken)
 	// add content type
-	req.Header.Add("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/json")
 	// add referer
-	req.Header.Add("Referer", referer)
+	req.Header.Set("Referer", referer)
 
 	resp, err := sh.client.Do(req)
 	if err != nil {
