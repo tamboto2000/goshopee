@@ -180,8 +180,8 @@ func (sh *Shopee) post(path, referer string, body interface{}) ([]byte, error) {
 	return raw, nil
 }
 
-// just like post, but without baseAPIUrl, instead you need to specify full path including host
-func (sh *Shopee) customPathPost(path, referer string, body interface{}) ([]byte, error) {
+// just like post, but without baseAPIUrl, instead you need to specify full path including host, and you can add additional headers
+func (sh *Shopee) customPost(path, referer string, headers map[string]string, body interface{}) ([]byte, error) {
 	uri, err := url.Parse(path)
 	if err != nil {
 		return nil, err
