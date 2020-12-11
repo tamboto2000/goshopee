@@ -30,7 +30,7 @@ type Item struct {
 	ShowShopeeVerifiedLabel               bool              `json:"show_shopee_verified_label,omitempty"`
 	SizeChart                             interface{}       `json:"size_chart,omitempty"`
 	IsPreOrder                            bool              `json:"is_pre_order,omitempty"`
-	ServiceByShopeeFlag                   int               `json:"service_by_shopee_flag,omitempty"`
+	ServiceByShopeeFlag                   bool              `json:"service_by_shopee_flag,omitempty"`
 	HistoricalSold                        int               `json:"historical_sold,omitempty"`
 	ReferenceItemID                       string            `json:"reference_item_id,omitempty"`
 	RecommendationInfo                    interface{}       `json:"recommendation_info,omitempty"`
@@ -128,10 +128,25 @@ type Item struct {
 	IsShopPreferred                       interface{}       `json:"is_shop_preferred,omitempty"`
 	PromoName                             string            `json:"promo_name,omitempty"`
 	Modelid                               int               `json:"modelid,omitempty"`
-	ItemGroupID                           int               `json:"item_group_id,omitempty"`
-	Quantity                              int               `json:"quantity,omitempty"`
-	AddOnDealInfo                         *AddOnDealInfo    `json:"add_on_deal_info,omitempty"`
-	VideoInfoList                         []VideoInfo       `json:"video_info_list,omitempty"`
+	// can be string or int
+	ItemGroupID             interface{}    `json:"item_group_id,omitempty"`
+	Quantity                int            `json:"quantity,omitempty"`
+	AddOnDealInfo           *AddOnDealInfo `json:"add_on_deal_info,omitempty"`
+	VideoInfoList           []VideoInfo    `json:"video_info_list,omitempty"`
+	IsAddOnSubItem          bool           `json:"is_add_on_sub_item,omitempty"`
+	OpcExtraData            *OpcExtraData  `json:"opc_extra_data,omitempty"`
+	PromotionID             int            `json:"promotion_id,omitempty"`
+	AddOnDealID             int            `json:"add_on_deal_id,omitempty"`
+	Offerid                 int            `json:"offerid,omitempty"`
+	Source                  string         `json:"source,omitempty"`
+	Checkout                bool           `json:"checkout,omitempty"`
+	NoneShippableFullReason string         `json:"none_shippable_full_reason,omitempty"`
+	IsFlashSale             bool           `json:"is_flash_sale,omitempty"`
+	Shippable               bool           `json:"shippable,omitempty"`
+	NoneShippableReason     string         `json:"none_shippable_reason,omitempty"`
+	ModelName               string         `json:"model_name,omitempty"`
+	AppliedPromotionID      int            `json:"applied_promotion_id,omitempty"`
+	CartItemChangeTime      int            `json:"cart_item_change_time,omitempty"`
 
 	sh *Shopee
 }
@@ -166,17 +181,33 @@ type Plan struct {
 }
 
 type Bank struct {
-	BankName   string   `json:"bank_name,omitempty"`
-	SubOptions []Option `json:"sub_options,omitempty"`
-	BankID     int      `json:"bank_id,omitempty"`
-	BankLogo   string   `json:"bank_logo,omitempty"`
+	BankName              string                  `json:"bank_name,omitempty"`
+	SubOptions            []Option                `json:"sub_options,omitempty"`
+	BankID                int                     `json:"bank_id,omitempty"`
+	BankLogo              string                  `json:"bank_logo,omitempty"`
+	Description           string                  `json:"description,omitempty"`
+	OptionInfo            string                  `json:"option_info,omitempty"`
+	IsVirtualAccount      bool                    `json:"is_virtual_account,omitempty"`
+	Enabled               bool                    `json:"enabled,omitempty"`
+	EligibleTransfer      string                  `json:"eligible_transfer,omitempty"`
+	IconBackground        interface{}             `json:"icon_background,omitempty"`
+	SubDescriptionInfo    *BankSubDescriptionInfo `json:"sub_description_info,omitempty"`
+	PopupConfirmationData *PopupConfirmationData  `json:"popup_confirmation_data,omitempty"`
+	OptionIcon            string                  `json:"option_icon,omitempty"`
+	Icon                  string                  `json:"icon,omitempty"`
+	DisabledReasonKey     string                  `json:"disabled_reason_key,omitempty"`
+	DisabledReasonData    *DisabledReasonData     `json:"disabled_reason_data,omitempty"`
+	DisabledReason        string                  `json:"disabled_reason,omitempty"`
 }
 
 type Option struct {
-	DisabledReason *string `json:"disabled_reason,omitempty"`
-	Data           Data    `json:"data,omitempty"`
-	Name           string  `json:"name,omitempty"`
-	OptionInfo     string  `json:"option_info,omitempty"`
+	DisabledReason string `json:"disabled_reason,omitempty"`
+	Data           *Data  `json:"data,omitempty"`
+	Name           string `json:"name,omitempty"`
+	OptionInfo     string `json:"option_info,omitempty"`
+	OptionID       int    `json:"option_id,omitempty"`
+	ShortName      string `json:"short_name,omitempty"`
+	Description    string `json:"description,omitempty"`
 }
 
 type Data struct {
@@ -222,41 +253,42 @@ type Data struct {
 	Shoporders                     []interface{}            `json:"shoporders,omitempty"`
 	CanUseCoins                    bool                     `json:"can_use_coins,omitempty"`
 	UseCoins                       bool                     `json:"use_coins,omitempty"`
-	CoinDiscount                   int64                    `json:"coin_discount,omitempty"`
-	CoinInfo                       CoinInfo                 `json:"coin_info,omitempty"`
+	CoinDiscount                   int                      `json:"coin_discount,omitempty"`
+	CoinInfo                       *CoinInfo                `json:"coin_info,omitempty"`
 	CoinText                       string                   `json:"coin_text,omitempty"`
 	CoinDetailedText               string                   `json:"coin_detailed_text,omitempty"`
-	Taxes                          Taxes                    `json:"taxes,omitempty"`
-	CardPromotionID                int64                    `json:"card_promotion_id,omitempty"`
-	CardPromotionDiscount          int64                    `json:"card_promotion_discount,omitempty"`
+	Taxes                          *Taxes                   `json:"taxes,omitempty"`
+	CardPromotionID                int                      `json:"card_promotion_id,omitempty"`
+	CardPromotionDiscount          int                      `json:"card_promotion_discount,omitempty"`
 	CardPromotionEnabled           bool                     `json:"card_promotion_enabled,omitempty"`
 	Description                    string                   `json:"description,omitempty"`
 	PromotionMsg                   string                   `json:"promotion_msg,omitempty"`
-	InvalidMessageCode             int64                    `json:"invalid_message_code,omitempty"`
+	InvalidMessageCode             int                      `json:"invalid_message_code,omitempty"`
 	InvalidMessage                 string                   `json:"invalid_message,omitempty"`
 	PlatformVouchers               []interface{}            `json:"platform_vouchers,omitempty"`
 	ShopVouchers                   []interface{}            `json:"shop_vouchers,omitempty"`
 	FreeShippingVoucherInfo        *FreeShippingVoucherInfo `json:"free_shipping_voucher_info,omitempty"`
-	TotalPayment                   []int64                  `json:"total_payment,omitempty"`
+	TotalPayment                   []int                    `json:"total_payment,omitempty"`
 	BundleDeals                    []interface{}            `json:"bundle_deals,omitempty"`
-	BundleDealsPromotionDiscount   int64                    `json:"bundle_deals_promotion_discount,omitempty"`
+	BundleDealsPromotionDiscount   int                      `json:"bundle_deals_promotion_discount,omitempty"`
 	ShopVoucherEntrance            []interface{}            `json:"shop_voucher_entrance,omitempty"`
 	Error                          int                      `json:"error,omitempty"`
 	ErrorMessage                   string                   `json:"error_message,omitempty"`
 	MessageLevel                   *MessageLevel            `json:"message_level,omitempty"`
 	WarnMessage                    interface{}              `json:"warn_message,omitempty"`
+	MinAmount                      int                      `json:"min_amount,omitempty"`
 }
 
 type Taxes struct {
-	Orders []int64 `json:"orders,omitempty"`
-	Total  int64   `json:"total,omitempty"`
+	Orders []int `json:"orders,omitempty"`
+	Total  int   `json:"total,omitempty"`
 }
 
 type FreeShippingVoucherInfo struct {
-	FreeShippingVoucherID   int64       `json:"free_shipping_voucher_id,omitempty"`
-	FreeShippingVoucherCode interface{} `json:"free_shipping_voucher_code,omitempty"`
-	DisabledReason          string      `json:"disabled_reason,omitempty"`
-	Description             string      `json:"description,omitempty"`
+	FreeShippingVoucherID   int    `json:"free_shipping_voucher_id,omitempty"`
+	DisabledReason          string `json:"disabled_reason,omitempty"`
+	Description             string `json:"description,omitempty"`
+	FreeShippingVoucherCode string `json:"free_shipping_voucher_code,omitempty"`
 }
 
 type AllPromotionRule struct {
@@ -272,35 +304,56 @@ type AllPromotionRule struct {
 }
 
 type ShopOrder struct {
-	ShopHasVoucher interface{}   `json:"shop_has_voucher,omitempty"`
-	Shop           *Shop         `json:"shop,omitempty"`
-	Items          []Item        `json:"items,omitempty"`
-	Shopid         int           `json:"shopid,omitempty"`
-	AddinTime      int64         `json:"addin_time,omitempty"`
-	ClickTime      interface{}   `json:"click_time,omitempty"`
-	ItemBriefs     []ItemBrief   `json:"item_briefs,omitempty"`
-	ShopVouchers   []interface{} `json:"shop_vouchers,omitempty"`
+	ShopHasVoucher                      interface{}         `json:"shop_has_voucher,omitempty"`
+	Shop                                *Shop               `json:"shop,omitempty"`
+	Items                               []Item              `json:"items,omitempty"`
+	Shopid                              int                 `json:"shopid,omitempty"`
+	AddinTime                           int                 `json:"addin_time,omitempty"`
+	ClickTime                           interface{}         `json:"click_time,omitempty"`
+	ItemBriefs                          []ItemBrief         `json:"item_briefs,omitempty"`
+	ShopVouchers                        []interface{}       `json:"shop_vouchers,omitempty"`
+	Logistics                           *Logistics          `json:"logistics,omitempty"`
+	BuyerAddressData                    *PaymentChannelData `json:"buyer_address_data,omitempty"`
+	SelectedPreferredDeliveryTimeSlotID interface{}         `json:"selected_preferred_delivery_time_slot_id,omitempty"`
+}
+
+type Logistics struct {
+	RecommendedChannelids           interface{}                `json:"recommended_channelids,omitempty"`
+	NonIntegratedChannelids         []interface{}              `json:"non_integrated_channelids,omitempty"`
+	LogisticServiceTypes            *LogisticServiceTypes      `json:"logistic_service_types,omitempty"`
+	LogisticChannels                map[string]LogisticChannel `json:"logistic_channels,omitempty"`
+	IntegratedChannelids            []int                      `json:"integrated_channelids,omitempty"`
+	VoucherWalletCheckingChannelIDS []interface{}              `json:"voucher_wallet_checking_channel_ids,omitempty"`
+}
+
+type PaymentChannelData struct {
 }
 
 type Shop struct {
-	Shopname              string   `json:"shopname,omitempty"`
-	HolidayModeOn         bool     `json:"holiday_mode_on,omitempty"`
-	Shopid                int      `json:"shopid,omitempty"`
-	Username              string   `json:"username,omitempty"`
-	Status                int      `json:"status,omitempty"`
-	CbOption              int      `json:"cb_option,omitempty"`
-	ShowOfficialShopLabel bool     `json:"show_official_shop_label,omitempty"`
-	Portrait              string   `json:"portrait,omitempty"`
-	FollowingCount        int      `json:"following_count,omitempty"`
-	Userid                int      `json:"userid,omitempty"`
-	IsFreeShipping        bool     `json:"is_free_shipping,omitempty"`
-	IsShopeeVerified      bool     `json:"is_shopee_verified,omitempty"`
-	HasWelcomePackageItem bool     `json:"has_welcome_package_item,omitempty"`
-	EnabledChannelids     []string `json:"enabled_channelids,omitempty"`
-	PromotionRules        []int    `json:"promotion_rules,omitempty"`
-	ShopTag               int      `json:"shop_tag,omitempty"`
-	AddinTime             int64    `json:"addin_time,omitempty"`
-	ClickTime             int      `json:"click_time,omitempty"`
+	Shopname      string `json:"shopname,omitempty"`
+	HolidayModeOn bool   `json:"holiday_mode_on,omitempty"`
+	Shopid        int    `json:"shopid,omitempty"`
+	Username      string `json:"username,omitempty"`
+	Status        int    `json:"status,omitempty"`
+	// can be int or bool
+	CbOption              interface{} `json:"cb_option,omitempty"`
+	ShowOfficialShopLabel bool        `json:"show_official_shop_label,omitempty"`
+	Portrait              string      `json:"portrait,omitempty"`
+	FollowingCount        int         `json:"following_count,omitempty"`
+	Userid                int         `json:"userid,omitempty"`
+	IsFreeShipping        bool        `json:"is_free_shipping,omitempty"`
+	IsShopeeVerified      bool        `json:"is_shopee_verified,omitempty"`
+	HasWelcomePackageItem bool        `json:"has_welcome_package_item,omitempty"`
+	EnabledChannelids     []string    `json:"enabled_channelids,omitempty"`
+	PromotionRules        []int       `json:"promotion_rules,omitempty"`
+	ShopTag               int         `json:"shop_tag,omitempty"`
+	AddinTime             int         `json:"addin_time,omitempty"`
+	ClickTime             int         `json:"click_time,omitempty"`
+	RemarkType            int         `json:"remark_type,omitempty"`
+	SupportEreceipt       bool        `json:"support_ereceipt,omitempty"`
+	Images                string      `json:"images,omitempty"`
+	IsOfficialShop        bool        `json:"is_official_shop,omitempty"`
+	ShopName              string      `json:"shop_name,omitempty"`
 }
 
 type Fsv struct {
@@ -311,17 +364,18 @@ type Fsv struct {
 }
 
 type ItemBrief struct {
-	Itemid             int   `json:"itemid,omitempty"`
-	Modelid            int   `json:"modelid,omitempty"`
-	ItemGroupID        int   `json:"item_group_id,omitempty"`
-	Quantity           int   `json:"quantity,omitempty"`
-	AppliedPromotionID int   `json:"applied_promotion_id,omitempty"`
-	OfferID            int   `json:"offerid,omitempty"`
-	Price              int   `json:"price,omitempty"`
-	IsAddOnSubItem     bool  `json:"is_add_on_sub_item,omitempty"`
-	AddOnDealID        int   `json:"add_on_deal_id,omitempty"`
-	Status             int   `json:"status,omitempty"`
-	CartItemChangeTime int64 `json:"cart_item_change_time,omitempty"`
+	Itemid  int `json:"itemid,omitempty"`
+	Modelid int `json:"modelid,omitempty"`
+	// can be string or int
+	ItemGroupID        interface{} `json:"item_group_id,omitempty"`
+	Quantity           int         `json:"quantity,omitempty"`
+	AppliedPromotionID int         `json:"applied_promotion_id,omitempty"`
+	OfferID            int         `json:"offerid,omitempty"`
+	Price              int         `json:"price,omitempty"`
+	IsAddOnSubItem     bool        `json:"is_add_on_sub_item,omitempty"`
+	AddOnDealID        int         `json:"add_on_deal_id,omitempty"`
+	Status             int         `json:"status,omitempty"`
+	CartItemChangeTime int         `json:"cart_item_change_time,omitempty"`
 }
 
 type LogisticsChannel struct {
@@ -352,11 +406,16 @@ type Category struct {
 	NoSub              bool        `json:"no_sub,omitempty"`
 	IsDefaultSubcat    bool        `json:"is_default_subcat,omitempty"`
 	BlockBuyerPlatform interface{} `json:"block_buyer_platform,omitempty"`
+	Catids             []int       `json:"catids,omitempty"`
 }
 
 type CoinInfo struct {
-	SpendCashUnit int           `json:"spend_cash_unit,omitempty"`
-	CoinEarnItems []interface{} `json:"coin_earn_items,omitempty"`
+	SpendCashUnit     int           `json:"spend_cash_unit,omitempty"`
+	CoinEarnItems     []interface{} `json:"coin_earn_items,omitempty"`
+	CoinOffset        int           `json:"coin_offset,omitempty"`
+	CoinEarn          int           `json:"coin_earn,omitempty"`
+	CoinEarnByVoucher int           `json:"coin_earn_by_voucher,omitempty"`
+	CoinUsed          int           `json:"coin_used,omitempty"`
 }
 
 type Rating struct {

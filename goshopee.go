@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -210,6 +211,14 @@ func (sh *Shopee) customPost(path, referer string, headers map[string]string, bo
 	req.Header.Set("Content-Type", "application/json")
 	// add referer
 	req.Header.Set("Referer", referer)
+
+	if headers != nil {
+		for key, val := range headers {
+			req.Header.Set(key, val)
+		}
+	}
+
+	fmt.Println(req.Header)
 
 	resp, err := sh.client.Do(req)
 	if err != nil {

@@ -1,63 +1,63 @@
 package goshopee
 
 type UserAddresses struct {
-	Addresses             []Address     `json:"addresses"`
-	PickupAddressID       int64         `json:"pickup_address_id"`
-	DeliveryAddressID     int64         `json:"delivery_address_id"`
-	ReturnAddressID       int64         `json:"return_address_id"`
-	SellerReturnAddressID int64         `json:"seller_return_address_id"`
-	LogisticAddresses     []interface{} `json:"logistic_addresses"`
+	Addresses             []Address     `json:"addresses,omitempty"`
+	PickupAddressID       int           `json:"pickup_address_id,omitempty"`
+	DeliveryAddressID     int           `json:"delivery_address_id,omitempty"`
+	ReturnAddressID       int           `json:"return_address_id,omitempty"`
+	SellerReturnAddressID int           `json:"seller_return_address_id,omitempty"`
+	LogisticAddresses     []interface{} `json:"logistic_addresses,omitempty"`
 }
 
 type Address struct {
-	LogisticsStatus    int64          `json:"logistics_status"`
-	Mtime              int64          `json:"mtime"`
-	Icno               string         `json:"icno"`
-	ID                 int64          `json:"id"`
-	City               string         `json:"city"`
-	District           string         `json:"district"`
-	Zipcode            string         `json:"zipcode"`
-	Label              string         `json:"label"`
-	State              string         `json:"state"`
-	GeoString          string         `json:"geoString"`
-	Status             int64          `json:"status"`
-	Deftime            int64          `json:"deftime"`
-	FullAddress        string         `json:"full_address"`
-	Phone              string         `json:"phone"`
-	FormattedAddress   string         `json:"formattedAddress"`
-	AddressInstruction string         `json:"address_instruction"`
-	Address            string         `json:"address"`
-	Extinfo            AddressExtinfo `json:"extinfo"`
-	Name               string         `json:"name"`
-	Town               string         `json:"town"`
-	Ctime              int64          `json:"ctime"`
-	Country            string         `json:"country"`
-	Userid             int64          `json:"userid"`
-	Geoinfo            Geoinfo        `json:"geoinfo"`
+	LogisticsStatus    int             `json:"logistics_status,omitempty"`
+	Mtime              int             `json:"mtime,omitempty"`
+	Icno               string          `json:"icno,omitempty"`
+	ID                 int             `json:"id,omitempty"`
+	City               string          `json:"city,omitempty"`
+	District           string          `json:"district,omitempty"`
+	Zipcode            string          `json:"zipcode,omitempty"`
+	Label              string          `json:"label,omitempty"`
+	State              string          `json:"state,omitempty"`
+	GeoString          string          `json:"geoString,omitempty"`
+	Status             int             `json:"status,omitempty"`
+	Deftime            int             `json:"deftime,omitempty"`
+	FullAddress        string          `json:"full_address,omitempty"`
+	Phone              string          `json:"phone,omitempty"`
+	FormattedAddress   string          `json:"formattedAddress,omitempty"`
+	AddressInstruction string          `json:"address_instruction,omitempty"`
+	Address            string          `json:"address,omitempty"`
+	Extinfo            *AddressExtinfo `json:"extinfo,omitempty"`
+	Name               string          `json:"name,omitempty"`
+	Town               string          `json:"town,omitempty"`
+	Ctime              int             `json:"ctime,omitempty"`
+	Country            string          `json:"country,omitempty"`
+	Userid             int             `json:"userid,omitempty"`
+	Geoinfo            *Geoinfo        `json:"geoinfo,omitempty"`
 }
 
 type AddressExtinfo struct {
-	Geoinfo                 string  `json:"geoinfo"`
-	PreferredDeliveryOption *int64  `json:"preferred_delivery_option,omitempty"`
-	AddressInstruction      *string `json:"address_instruction,omitempty"`
-	Label                   *string `json:"label,omitempty"`
+	Geoinfo                 string `json:"geoinfo,omitempty"`
+	PreferredDeliveryOption int    `json:"preferred_delivery_option,omitempty"`
+	AddressInstruction      string `json:"address_instruction,omitempty"`
+	Label                   string `json:"label,omitempty"`
 }
 
 type Geoinfo struct {
-	Region           Region  `json:"region"`
-	FormattedAddress string  `json:"formattedAddress"`
-	Country          *string `json:"country,omitempty"`
-	Admin1           *string `json:"admin1,omitempty"`
-	Admin3           *string `json:"admin3,omitempty"`
-	Admin2           *string `json:"admin2,omitempty"`
-	Admin4           *string `json:"admin4,omitempty"`
-	StreetNumber     *string `json:"streetNumber,omitempty"`
-	PostalCode       *string `json:"postalCode,omitempty"`
-	StreetName       *string `json:"streetName,omitempty"`
-	PlaceID          *string `json:"placeId,omitempty"`
+	Region           *Region `json:"region,omitempty"`
+	FormattedAddress string  `json:"formattedAddress,omitempty"`
+	Country          string  `json:"country,omitempty"`
+	Admin1           string  `json:"admin1,omitempty"`
+	Admin3           string  `json:"admin3,omitempty"`
+	Admin2           string  `json:"admin2,omitempty"`
+	Admin4           string  `json:"admin4,omitempty"`
+	StreetNumber     string  `json:"streetNumber,omitempty"`
+	PostalCode       string  `json:"postalCode,omitempty"`
+	StreetName       string  `json:"streetName,omitempty"`
+	PlaceID          string  `json:"placeId,omitempty"`
 }
 
 type Region struct {
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude,omitempty"`
+	Longitude float64 `json:"longitude,omitempty"`
 }
