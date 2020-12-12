@@ -30,7 +30,7 @@ type Item struct {
 	ShowShopeeVerifiedLabel               bool              `json:"show_shopee_verified_label,omitempty"`
 	SizeChart                             interface{}       `json:"size_chart,omitempty"`
 	IsPreOrder                            bool              `json:"is_pre_order,omitempty"`
-	ServiceByShopeeFlag                   bool              `json:"service_by_shopee_flag,omitempty"`
+	ServiceByShopeeFlag                   interface{}       `json:"service_by_shopee_flag,omitempty"`
 	HistoricalSold                        int               `json:"historical_sold,omitempty"`
 	ReferenceItemID                       string            `json:"reference_item_id,omitempty"`
 	RecommendationInfo                    interface{}       `json:"recommendation_info,omitempty"`
