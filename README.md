@@ -71,4 +71,4 @@ if err != nil {
 License
 ----
 
-Not really decided yet...
+MIT
